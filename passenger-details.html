@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Details - Bus Ticketing</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="assets/images/mylogo.png" alt="Bus Ticketing Logo" style="width: 50px; height: 50px; object-fit: contain;">
+                </div>
+                <span class="logo-text">Bus Ticketing</span>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="home.html">Home</a></li>
+                    <li class="nav-item"><a href="#about">About Us</a></li>
+                    <li class="nav-item"><a href="my-bookings.html">My Bookings</a></li>
+                    <li class="nav-item"><a href="ticket.html">My Ticket</a></li>
+                    <li class="nav-item"><a href="#reservation">My Reservation</a></li>
+                    <li class="nav-item"><a href="#profile">Profile</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-avatar"></div>
+                <span class="username">Username</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="back-btn" onclick="window.history.back()">←</button>
+                </div>
+                <div class="header-right">
+                    <span class="search-icon">🔍</span>
+                    <button class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <h2 style="margin-bottom: 30px; color: #2563eb;">Passenger Details</h2>
+                
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">Book Details</h3>
+                    
+                    <div class="book-details">
+                        <div class="bus-image-small"></div>
+                        
+                        <div class="booking-info">
+                            <h3 id="busName">JoyBus</h3>
+                            <div class="route-info">
+                                <span id="busFrom">Cebu</span>
+                                <span style="margin: 0 10px;">→</span>
+                                <span id="busTo">Oslob</span>
+                            </div>
+                            <p id="busDateTime" style="margin-top: 5px;">September 5, 2026 | 8:00AM</p>
+                            <p id="busSeat" style="margin-top: 5px;">Seat: 15</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <h3 style="margin-bottom: 20px;">Passenger Information</h3>
+                    
+                    <form id="passengerForm" onsubmit="handlePassengerSubmit(event)">
+                        <div class="form-group">
+                            <label for="fullName">FullName</label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Enter full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter email address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control" placeholder="Enter password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="idNumber">ID Number</label>
+                            <input type="text" id="idNumber" class="form-control" placeholder="Enter ID number" required>
+                        </div>
+
+                        <div class="center-content" style="margin-top: 30px;">
+                            <button type="submit" class="btn-primary">Continue to Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Load booking data from sessionStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+            
+            if (bookingData.busName) {
+                document.getElementById('busName').textContent = bookingData.busName;
+            }
+            if (bookingData.from) {
+                document.getElementById('busFrom').textContent = bookingData.from;
+            }
+            if (bookingData.to) {
+                document.getElementById('busTo').textContent = bookingData.to;
+            }
+            if (bookingData.date && bookingData.time) {
+                const dateObj = new Date(bookingData.date);
+                const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                document.getElementById('busDateTime').textContent = `${formattedDate} | ${bookingData.time}`;
+            }
+            if (bookingData.seat) {
+                document.getElementById('busSeat').textContent = `Seat: ${bookingData.seat}`;
+            }
+        });
+
+        function handlePassengerSubmit(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const idNumber = document.getElementById('idNumber').value;
+            
+            // Get existing booking data
+            const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+            
+            // Add passenger info
+            bookingData.passengerName = fullName;
+            bookingData.passengerEmail = email;
+            bookingData.passengerId = idNumber;
+            
+            // Save back to sessionStorage
+            sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+            
+            // Redirect to payment page
+            window.location.href = 'payment.html';
+        }
+    </script>
+</body>
+</html>

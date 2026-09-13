@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Buses</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="assets/images/mylogo.png" alt="Bus Ticketing Logo" style="width: 50px; height: 50px; object-fit: contain;">
+                </div>
+                <span class="logo-text">Bus Ticketing</span>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="admin-buses.html">Dashboard</a></li>
+                    <li class="nav-item"><a href="admin-buses.html">Bookings</a></li>
+                    <li class="nav-item"><a href="admin-buses.html" class="active">Buses</a></li>
+                    <li class="nav-item"><a href="#routes">Routes</a></li>
+                    <li class="nav-item"><a href="#payments">Payments</a></li>
+                    <li class="nav-item"><a href="#user">User</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-avatar"></div>
+                <span class="username">Username</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="back-btn" onclick="window.history.back()">←</button>
+                    <span class="page-title">Buses</span>
+                </div>
+                <div class="header-right">
+                    <button class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Search and Add New Bus -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <span style="color: #6b7280;">🔍</span>
+                        <input type="text" placeholder="Search Buses" id="searchInput" onkeyup="searchBuses()">
+                    </div>
+                    <button class="btn-primary" onclick="showAddBusModal()">+Add New Bus</button>
+                </div>
+
+                <!-- Buses Table -->
+                <div class="card" style="padding: 0; overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Bus Code</th>
+                                <th>Bus Name</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="busesTableBody">
+                            <tr>
+                                <td>Bus-001</td>
+                                <td>JoyBus</td>
+                                <td>45</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" onclick="editBus('Bus-001')" title="Edit">✏️</button>
+                                        <button class="icon-btn" onclick="deleteBus('Bus-001')" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bus-001</td>
+                                <td>PartasBus</td>
+                                <td>40</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" onclick="editBus('Bus-002')" title="Edit">✏️</button>
+                                        <button class="icon-btn" onclick="deleteBus('Bus-002')" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bus-001</td>
+                                <td>GenBus</td>
+                                <td>35</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" onclick="editBus('Bus-003')" title="Edit">✏️</button>
+                                        <button class="icon-btn" onclick="deleteBus('Bus-003')" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bus-001</td>
+                                <td>VBus</td>
+                                <td>40</td>
+                                <td><span class="status-badge status-inactive">Inactive</span></td>
+                                <td>
+                                    <div class="action-icons">
+                                        <button class="icon-btn" onclick="editBus('Bus-004')" title="Edit">✏️</button>
+                                        <button class="icon-btn" onclick="deleteBus('Bus-004')" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Add/Edit Bus -->
+    <div id="busModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background-color: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 500px;">
+            <h2 style="margin-bottom: 20px;">Add New Bus</h2>
+            <form id="busForm" onsubmit="handleBusSubmit(event)">
+                <div class="form-group">
+                    <label for="busCode">Bus Code</label>
+                    <input type="text" id="busCode" class="form-control" placeholder="Enter bus code" required>
+                </div>
+                <div class="form-group">
+                    <label for="busName">Bus Name</label>
+                    <input type="text" id="busName" class="form-control" placeholder="Enter bus name" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacity">Capacity</label>
+                    <input type="number" id="capacity" class="form-control" placeholder="Enter capacity" required>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" class="form-control" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="submit" class="btn-primary" style="flex: 1;">Save</button>
+                    <button type="button" class="btn-secondary" style="flex: 1;" onclick="closeBusModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        function showAddBusModal() {
+            document.getElementById('busModal').style.display = 'flex';
+            document.getElementById('busForm').reset();
+        }
+
+        function closeBusModal() {
+            document.getElementById('busModal').style.display = 'none';
+        }
+
+        function handleBusSubmit(event) {
+            event.preventDefault();
+            
+            const busCode = document.getElementById('busCode').value;
+            const busName = document.getElementById('busName').value;
+            const capacity = document.getElementById('capacity').value;
+            const status = document.getElementById('status').value;
+            
+            // Add new row to table
+            const tableBody = document.getElementById('busesTableBody');
+            const newRow = document.createElement('tr');
+            
+            const statusClass = status === 'Active' ? 'status-active' : 'status-inactive';
+            
+            newRow.innerHTML = `
+                <td>${busCode}</td>
+                <td>${busName}</td>
+                <td>${capacity}</td>
+                <td><span class="status-badge ${statusClass}">${status}</span></td>
+                <td>
+                    <div class="action-icons">
+                        <button class="icon-btn" onclick="editBus('${busCode}')" title="Edit">✏️</button>
+                        <button class="icon-btn" onclick="deleteBus('${busCode}')" title="Delete">🗑️</button>
+                    </div>
+                </td>
+            `;
+            
+            tableBody.appendChild(newRow);
+            
+            closeBusModal();
+            alert('Bus added successfully!');
+        }
+
+        function editBus(busCode) {
+            alert('Edit functionality for ' + busCode + ' - This would open a modal with the bus details');
+        }
+
+        function deleteBus(busCode) {
+            if (confirm('Are you sure you want to delete ' + busCode + '?')) {
+                // In production, you would delete from the database
+                alert('Bus deleted successfully!');
+                // Refresh the table or remove the row
+            }
+        }
+
+        function searchBuses() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('busesTableBody');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let found = false;
+                
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell) {
+                        const textValue = cell.textContent || cell.innerText;
+                        if (textValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                
+                rows[i].style.display = found ? '' : 'none';
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('busModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeBusModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation - Bus Ticketing</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="assets/images/mylogo.png" alt="Bus Ticketing Logo" style="width: 50px; height: 50px; object-fit: contain;">
+                </div>
+                <span class="logo-text">Bus Ticketing</span>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="home.html">Home</a></li>
+                    <li class="nav-item"><a href="#about">About Us</a></li>
+                    <li class="nav-item"><a href="my-bookings.html">My Bookings</a></li>
+                    <li class="nav-item"><a href="ticket.html">My Ticket</a></li>
+                    <li class="nav-item"><a href="#profile">Profile</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-avatar"></div>
+                <span class="username">Username</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="back-btn" onclick="window.history.back()">←</button>
+                </div>
+                <div class="header-right">
+                    <span class="search-icon">🔍</span>
+                    <button class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Success Icon -->
+                <div class="success-icon">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="white">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                </div>
+
+                <div class="card">
+                    <div class="book-details">
+                        <div class="bus-image-small"></div>
+                        
+                        <div class="booking-info">
+                            <h3 id="busName">JoyBus</h3>
+                            <div class="route-info">
+                                <span id="busFrom">Cebu</span>
+                                <span style="margin: 0 10px;">→</span>
+                                <span id="busTo">Oslob</span>
+                            </div>
+                            <p id="busDateTime" style="margin-top: 5px;">September 5, 2026 | 8:00AM</p>
+                            <p id="busSeat" style="margin-top: 5px;">Seat: 15</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Amount Section -->
+                <div class="total-section">
+                    <span>Total Amount</span>
+                    <span id="totalAmount">₱200</span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="confirmation-buttons">
+                    <button class="btn-primary" onclick="window.location.href='ticket.html'">Download Ticket</button>
+                    <button class="btn-secondary" onclick="window.location.href='my-bookings.html'">View MyBookings</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Load booking data from sessionStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+            
+            if (bookingData.busName) {
+                document.getElementById('busName').textContent = bookingData.busName;
+            }
+            if (bookingData.from) {
+                document.getElementById('busFrom').textContent = bookingData.from;
+            }
+            if (bookingData.to) {
+                document.getElementById('busTo').textContent = bookingData.to;
+            }
+            if (bookingData.date && bookingData.time) {
+                const dateObj = new Date(bookingData.date);
+                const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                document.getElementById('busDateTime').textContent = `${formattedDate} | ${bookingData.time}`;
+            }
+            if (bookingData.seat) {
+                document.getElementById('busSeat').textContent = `Seat: ${bookingData.seat}`;
+            }
+            if (bookingData.price) {
+                document.getElementById('totalAmount').textContent = `₱${bookingData.price}`;
+            }
+        });
+    </script>
+</body>
+</html>

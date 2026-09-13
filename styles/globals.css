@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Intel+One+Mono:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-blue: #2563eb;
+  --dark-blue: #1e40af;
+  --light-blue: #dbeafe;
+  --bg-gray: #e5e7eb;
+  --text-dark: #1f2937;
+  --text-gray: #6b7280;
+  --white: #ffffff;
+  --green: #22c55e;
+  --red: #ef4444;
+  --sidebar-width: 230px;
+}
+
+body {
+  font-family: 'Intel One Mono', monospace;
+  background-color: var(--bg-gray);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 0;
+}
+
+.content-area {
+  padding: 40px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-blue);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid var(--light-blue);
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  font-family: 'Intel One Mono', monospace;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .content-area {
+    padding: 20px;
+  }
+}

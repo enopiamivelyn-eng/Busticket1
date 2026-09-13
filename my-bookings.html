@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - Bus Ticketing</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .tabs {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .tab {
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #1f2937;
+            border-bottom-color: #2563eb;
+        }
+        
+        .booking-card {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .booking-id {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .booking-status {
+            background-color: #dbeafe;
+            color: #2563eb;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        .booking-details {
+            margin-bottom: 15px;
+        }
+        
+        .bus-name {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+        
+        .route {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #1f2937;
+        }
+        
+        .datetime {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        
+        .seat-info {
+            font-size: 16px;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .view-ticket-btn {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            background-color: transparent;
+            color: #2563eb;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .view-ticket-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="assets/images/mylogo.png" alt="Bus Ticketing Logo" style="width: 50px; height: 50px; object-fit: contain;">
+                </div>
+                <span class="logo-text">Bus Ticketing</span>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="home.html">Home</a></li>
+                    <li class="nav-item"><a href="#about">About Us</a></li>
+                    <li class="nav-item"><a href="my-bookings.html" class="active">My Bookings</a></li>
+                    <li class="nav-item"><a href="ticket.html">My Ticket</a></li>
+                    <li class="nav-item"><a href="#reservation">My Reservation</a></li>
+                    <li class="nav-item"><a href="#profile">Profile</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="user-avatar"></div>
+                <span class="username">Username</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="back-btn" onclick="window.history.back()">←</button>
+                </div>
+                <div class="header-right">
+                    <span class="search-icon">🔍</span>
+                    <button class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('upcoming')">Upcoming</div>
+                    <div class="tab" onclick="switchTab('completed')">Completed</div>
+                    <div class="tab" onclick="switchTab('cancelled')">Cancelled</div>
+                </div>
+
+                <!-- Upcoming Tab Content -->
+                <div id="upcoming" class="tab-content active">
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <span class="booking-id">BOK-108</span>
+                            <span class="booking-status">Upcoming</span>
+                        </div>
+                        <div class="booking-details">
+                            <div class="bus-name">JoyBus</div>
+                            <div class="route">Cebu → Oslob</div>
+                            <div class="datetime">September 5, 2026 | 8:00AM</div>
+                            <div class="seat-info">Seat: 15</div>
+                            <div class="price">₱200</div>
+                        </div>
+                        <a href="ticket.html" class="view-ticket-btn">View ticket</a>
+                    </div>
+                </div>
+
+                <!-- Completed Tab Content -->
+                <div id="completed" class="tab-content">
+                    <div class="empty-state">
+                        <p>No completed bookings yet</p>
+                    </div>
+                </div>
+
+                <!-- Cancelled Tab Content -->
+                <div id="cancelled" class="tab-content">
+                    <div class="empty-state">
+                        <p>No cancelled bookings</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
