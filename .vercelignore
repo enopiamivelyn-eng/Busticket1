@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Old HTML files (not needed for Next.js)
+*.html
+css
+js
+assets
+
+# Development files
+.git
+.vscode
+.idea
+
+# Documentation
+*.md
+!README.md
+
+# Misc
+.DS_Store
+*.log
